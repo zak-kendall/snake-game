@@ -1,36 +1,30 @@
 package snake;
 
 public class SnakePart {
-	private int x;
-	private int y;
+	private Location location;
 	private Direction direction;
 	private SnakePart front;
 	private SnakePart behind;
-	
-	public SnakePart(int x, int y, Direction direction, SnakePart front) {
-		this.x = x;
-		this.y = y;
+
+	public SnakePart(Location location, Direction direction, SnakePart front, SnakePart behind) {
+		this.location = location;
 		this.direction = direction;
 		this.front = front;
+		this.behind = behind;
 		if (this.front != null) {
 			this.front.setBehind(this);
 		}
-	}
-	
-	public int getX() {
-		return x;
-	}
-
-	public void setX(int x) {
-		this.x = x;
+		if(this.behind != null) {
+			this.behind.setFront(this);
+		}
 	}
 
-	public int getY() {
-		return y;
+	public Location getLocation() {
+		return location;
 	}
 
-	public void setY(int y) {
-		this.y = y;
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 
 	public Direction getDirection() {
@@ -56,7 +50,7 @@ public class SnakePart {
 	public void setBehind(SnakePart behind) {
 		this.behind = behind;
 	}
-	
+
 	public SnakePart getTail() {
 		if (behind == null) {
 			return this;
