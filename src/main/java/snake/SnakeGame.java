@@ -1,3 +1,4 @@
+package snake;
 
 public class SnakeGame {
 
@@ -5,4 +6,5 @@ public class SnakeGame {
 		System.out.println("Welcome to Snake game!");
 	}
 
+	
 }
