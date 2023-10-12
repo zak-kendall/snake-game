@@ -65,4 +65,15 @@ public class Snake {
 		SnakePart tail = this.head.getTail();
 		tail.getFront().setBehind(null);
 	}
+	
+	public boolean occupiesLocation(Location location) {
+		SnakePart part = head;
+		while (part != null) {
+			if (part.getLocation().equals(location)) {
+				return true;
+			} 
+			part = part.getBehind();
+		}
+		return false;
+	}
 }
