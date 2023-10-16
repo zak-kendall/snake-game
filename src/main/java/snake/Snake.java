@@ -2,59 +2,36 @@ package snake;
 
 public class Snake {
 	private SnakePart head;
+	private Direction direction;
 
-	public Snake(int length, int x, int y, Direction direction) {
-		this.head = new SnakePart(new Location(x, y), direction, null, null);
-		for (int i = 1; i < length; i++) {
-			growTail();
+	public Snake(Direction direction, Location... headToTailLocations) {
+		this.head = new SnakePart(headToTailLocations[0], null, null);
+		this.direction = direction;
+		for (int i = 1; i < headToTailLocations.length; i++) {
+			new SnakePart(headToTailLocations[i], head.getTail(), null);
 		}
-	}
-
-	private void growTail() {
-		// Get the tail
-		SnakePart tail = head.getTail();
-
-		// Set the new x,y based on the x,y,direction of the tail
-		int x = tail.getLocation().getX();
-		int y = tail.getLocation().getY();
-		switch (tail.getDirection()) {
-		case EAST:
-			x--;
-			break;
-		case NORTH:
-			y--;
-			break;
-		case SOUTH:
-			y++;
-			break;
-		case WEST:
-			x++;
-			break;
-		}
-
-		// Create the new part
-		SnakePart newPart = new SnakePart(new Location(x, y), tail.getDirection(), tail, null);
 	}
 
 	public void move(Direction direction, boolean grow) {
-		int newHeadX = this.head.getLocation().getX();
-		int newHeadY = this.head.getLocation().getY();
-		switch (head.getDirection()) {
+		this.direction = direction;
+		int newHeadColumn = this.head.getLocation().getColumn();
+		int newHeadRow = this.head.getLocation().getRow();
+		switch (this.direction) {
 		case EAST:
-			newHeadX++;
+			newHeadColumn++;
 			break;
 		case NORTH:
-			newHeadY++;
+			newHeadRow++;
 			break;
 		case SOUTH:
-			newHeadY--;
+			newHeadRow--;
 			break;
 		case WEST:
-			newHeadX--;
+			newHeadColumn--;
 			break;
 		}
 
-		this.head = new SnakePart(new Location(newHeadX, newHeadY), direction, null, head);
+		this.head = new SnakePart(new Location(newHeadColumn, newHeadRow), null, head);
 
 		if(!grow) {
 			removeTail();
@@ -64,5 +41,24 @@ public class Snake {
 	private void removeTail() {
 		SnakePart tail = this.head.getTail();
 		tail.getFront().setBehind(null);
+	}
+
+	public boolean occupiesLocation(Location location) {
+		SnakePart part = this.head;
+		while(part != null) {
+			if(part.getLocation().equals(location)) {
+				return true;
+			}
+			part = part.getBehind();
+		}
+		return false;
+	}
+
+	public boolean headOccupiesLocation(Location location) {
+		return this.head.getLocation().equals(location);
+	}
+
+	public Location getHeadLocation() {
+		return head.getLocation();
 	}
 }

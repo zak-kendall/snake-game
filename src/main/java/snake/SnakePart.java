@@ -2,13 +2,11 @@ package snake;
 
 public class SnakePart {
 	private Location location;
-	private Direction direction;
 	private SnakePart front;
 	private SnakePart behind;
 
-	public SnakePart(Location location, Direction direction, SnakePart front, SnakePart behind) {
+	public SnakePart(Location location, SnakePart front, SnakePart behind) {
 		this.location = location;
-		this.direction = direction;
 		this.front = front;
 		this.behind = behind;
 		if (this.front != null) {
@@ -25,14 +23,6 @@ public class SnakePart {
 
 	public void setLocation(Location location) {
 		this.location = location;
-	}
-
-	public Direction getDirection() {
-		return direction;
-	}
-
-	public void setDirection(Direction direction) {
-		this.direction = direction;
 	}
 
 	public SnakePart getFront() {
