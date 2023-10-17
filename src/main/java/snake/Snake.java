@@ -37,6 +37,17 @@ public class Snake {
 	}
 
 	public void move(Direction direction, boolean grow) {
+	
+		Location nextLocation = getNextLocation(direction);
+
+		this.head = new SnakePart(nextLocation, direction, null, head);
+
+		if(!grow) {
+			removeTail();
+		}
+	}
+	
+	public Location getNextLocation(Direction direction) {
 		int newHeadX = this.head.getLocation().getX();
 		int newHeadY = this.head.getLocation().getY();
 		switch (head.getDirection()) {
@@ -53,12 +64,7 @@ public class Snake {
 			newHeadX--;
 			break;
 		}
-
-		this.head = new SnakePart(new Location(newHeadX, newHeadY), direction, null, head);
-
-		if(!grow) {
-			removeTail();
-		}
+		return new Location(newHeadX, newHeadY);
 	}
 
 	private void removeTail() {
@@ -75,5 +81,8 @@ public class Snake {
 			part = part.getBehind();
 		}
 		return false;
+	}
+	public SnakePart getHead() {
+		return head;
 	}
 }
